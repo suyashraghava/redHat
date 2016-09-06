@@ -47,8 +47,11 @@ pactTest= pd.merge(people, te, on='people_id')
 print pactTest.shape, pactTrain.shape
 
 #feature selection
-from sklearn.feature_selection import SelectPercentile, f_classif
-ftp = SelectPercentile(f_classif, percentile=10)
+from sklearn.feature_selection import SelectPercentile, f_classif, SelectFromModel
+#ftp = SelectPercentile(f_classif, percentile=80)
+from sklearn.svm import LinearSVC
+lsvc = LinearSVC(C=0.01, penalty="l1", dual=False)
+ftp = SelectFromModel(lsvc)
 pactTrain = ftp.fit_transform(pactTrain.values, actTr.outcome)
 features = ftp.get_support(indices = False)
 c =[]
